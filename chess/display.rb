@@ -22,6 +22,7 @@ class Display
         else
           print piece.to_s
         end
+        print " "
       end
       print "\n"
     end

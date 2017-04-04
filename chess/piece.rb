@@ -8,7 +8,7 @@ class Piece
   end
 
   def to_s
-    "x"
+    "-"
   end
 
   def empty?
