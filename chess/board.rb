@@ -4,6 +4,7 @@ require_relative "queen"
 require_relative "bishop"
 require_relative "rook"
 require_relative 'display'
+require_relative 'king'
 
 class Board
   attr_reader :grid
@@ -59,8 +60,9 @@ if __FILE__ == $PROGRAM_NAME
   queen = Queen.new([2,3], board)
   rook = Rook.new([2,1], board)
   bishop = Bishop.new([2,2], board)
+  king = King.new([4,2], board)
   display.render
-  p bishop.moves
+  p king.moves
   # d.test_cursor
 
 end
