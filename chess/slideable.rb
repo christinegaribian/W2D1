@@ -1,18 +1,18 @@
 require 'byebug'
 module Slideable
-  def moves(directions)
+  def moves
     moves = []
-    if directions.include? :horizontal
-      moves.concat(horizontal_dirs)
+    if @directions.include? :horizontal
+      moves.concat(horizontal_moves)
     end
-    if directions.include? :diagonal
-      moves.concat(diagonal_dirs)
+    if @directions.include? :diagonal
+      moves.concat(diagonal_moves)
     end
     moves
   end
 
   private
-  def horizontal_dirs
+  def horizontal_moves
     moves = []
     moves += grow_unblocked_moves_in_dir(1, 0)
     moves += grow_unblocked_moves_in_dir(0, 1)
@@ -21,11 +21,10 @@ module Slideable
     moves
   end
 
-  def diagonal_dirs
+  def diagonal_moves
     moves = []
     # debugger
     moves += grow_unblocked_moves_in_dir(1, 1)
-
     moves += grow_unblocked_moves_in_dir(-1, -1)
     moves += grow_unblocked_moves_in_dir(-1, 1)
     moves += grow_unblocked_moves_in_dir(1, -1)

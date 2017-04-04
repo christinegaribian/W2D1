@@ -1,6 +1,8 @@
 require_relative "piece"
 require_relative "null_piece"
 require_relative "queen"
+require_relative "bishop"
+require_relative "rook"
 require_relative 'display'
 
 class Board
@@ -55,7 +57,7 @@ if __FILE__ == $PROGRAM_NAME
   b = Board.new
   d = Display.new(b)
   q = Queen.new([1,3], b)
-  p q.move_dirs
+  p q.moves
   # d.test_cursor
 
 end

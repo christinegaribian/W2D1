@@ -4,15 +4,11 @@ class Queen < Piece
 
   def initialize(position, board)
     super(position, board)
-    @direction = [:diagonal, :horizontal]
+    @directions = [:diagonal, :horizontal]
   end
 
   def to_s
     "q"
-  end
-
-  def move_dirs
-    moves(@direction)
   end
 
 end
