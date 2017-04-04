@@ -2,13 +2,13 @@ require_relative "slideable"
 class Queen < Piece
   include Slideable
 
-  def initialize(position, board)
-    super(position, board)
+  def initialize(position = [0,1], board, color)
+    super(position, board, color)
     @directions = [:diagonal, :horizontal]
   end
 
   def to_s
-    "q"
+    @color == :white ? "\u2655" : "\u265B"
   end
 
 end

@@ -1,10 +1,12 @@
 class Piece
-  attr_reader :position, :board
+  attr_reader :board, :color
+  attr_writer :position
 
-  def initialize(position, board)
+  def initialize(position, board, color)
     @position = position
     @board = board
     @board[position]= self
+    @color = color
   end
 
   def to_s
@@ -14,9 +16,9 @@ class Piece
   def empty?
     self.is_a?(NullPiece)
   end
-
-  def valid_moves()
-  end
+  #
+  # def valid_moves()
+  # end
 
   private
   def move_into_check(to_pos)

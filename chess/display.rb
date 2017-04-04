@@ -28,6 +28,24 @@ class Display
     end
   end
 
+  def get_valid_cursor_move
+    render
+    start_pos, end_pos = nil
+    until @board.valid_move?(start_pos, end_pos)
+      input = @cursor.get_input # nil or some position
+      render
+      if input
+        if @cursor.selected
+          start_pos = input
+        else
+          end_pos = input
+        end
+      end
+    end
+    [start_pos, end_pos]
+  end
+
+
   def test_cursor
     render
     25.times do
