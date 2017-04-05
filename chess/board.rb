@@ -12,9 +12,13 @@ require  "byebug"
 
 class Board
   attr_reader :grid
-  def initialize
-    @grid = Array.new(8) { Array.new(8) }
-    populate_new_grid
+  def initialize(grid = nil)
+    if grid.nil?
+      @grid = Array.new(8) { Array.new(8) }
+      populate_new_grid
+    else
+      @grid = grid
+    end
   end
 
   def populate_new_grid
@@ -61,10 +65,10 @@ class Board
 
   def move_piece(start_pos, end_pos)
     raise "No piece to move" if self[start_pos].is_a?(NullPiece)
-    raise "Position already taken" unless self[end_pos].is_a?(NullPiece)
+    # raise "Position already taken" unless self[end_pos].is_a?(NullPiece)
 
     piece = self[start_pos]
-    self[start_pos] = self[end_pos]
+    self[start_pos] = NullPiece.instance
     self[end_pos] = piece
     piece.position = end_pos
 
@@ -79,7 +83,59 @@ class Board
     return false if start_pos.nil? || end_pos.nil?
     # debugger
     current_piece = self[start_pos]
-    current_piece.moves.include? end_pos
+    current_piece.valid_moves.include? end_pos
+  end
+
+  def find_king(color)
+    @grid.each_index do |row_idx|
+      @grid[row_idx].each_index do |col_idx|
+        cur_pos = [row_idx, col_idx]
+        return cur_pos if self[cur_pos].is_a?(King) && self[cur_pos].color == color
+      end
+    end
+  end
+
+  def find_pieces(color)
+    pieces = []
+    @grid.each_index do |row_idx|
+      @grid[row_idx].each_index do |col_idx|
+        piece = self[[row_idx, col_idx]]
+        pieces << piece if piece.color == color
+      end
+    end
+    pieces
+  end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    other_color = color == :black ? :white : :black
+    opponent_pieces = find_pieces(other_color)
+    opponent_pieces.each do |piece|
+      return true if piece.moves.include? king_pos
+    end
+    false
+  end
+
+  def checkmate?(color)
+    incheck = in_check?(color)
+    if incheck
+      return find_pieces(color).all? { |piece| piece.valid_moves.empty? }
+    end
+
+    false
+  end
+
+  def deep_dup
+    new_grid = Array.new(8) { Array.new(8) }
+    new_board = Board.new(new_grid)
+
+    @grid.each_index do |row_idx|
+      @grid[row_idx].each_index do |col_idx|
+        new_grid[row_idx][col_idx] = (@grid[row_idx][col_idx]).copy_to_dup(new_board)
+      end
+    end
+
+    new_board
   end
 
 end

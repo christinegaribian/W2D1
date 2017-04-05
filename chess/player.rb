@@ -1,4 +1,5 @@
 class Player
+  attr_accessor :color
 
   def initialize(name, board)
     @board = board

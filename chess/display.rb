@@ -15,9 +15,9 @@ class Display
         piece = @board[[row_idx, col_idx]]
         if @cursor.cursor_pos == [row_idx, col_idx]
           if @cursor.selected
-            print piece.to_s.colorize(color: :white, background: :blue)
+            print piece.to_s.colorize(color: :white, background: :light_black)
           else
-            print piece.to_s.colorize :red
+            print piece.to_s.colorize(color: :red)
           end
         else
           print piece.to_s
@@ -28,7 +28,7 @@ class Display
     end
   end
 
-  def get_valid_cursor_move
+  def get_valid_cursor_move(color)
     render
     start_pos, end_pos = nil
     until @board.valid_move?(start_pos, end_pos)
@@ -36,7 +36,12 @@ class Display
       render
       if input
         if @cursor.selected
-          start_pos = input
+          if @board[input].color == color
+            start_pos = input
+          else
+            @cursor.selected = false
+            render
+          end
         else
           end_pos = input
         end

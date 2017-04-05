@@ -6,23 +6,23 @@ class Game
   def initialize(player1, player2)
     @board = Board.new
     @player1 = HumanPlayer.new("christine", @board)
+    @player1.color = :white
     @player2 = HumanPlayer.new("sam", @board)
-
-
+    @player2.color = :black
+    @current_player = @player1
   end
 
   def play
-    while true
-      @player1.make_move
-
+    until @board.checkmate?(@player1.color) || @board.checkmate?(@player2.color)
+      @current_player.make_move
+      switch_players!
     end
-    # until board.is_checkmate?
-    #   start, end = current_player.make_move(@board)
-
+    p @current_player
   end
 
-
-
+  def switch_players!
+    @current_player = @current_player == @player1 ? @player2 : @player1
+  end
 end
 
 

@@ -32,11 +32,22 @@ module Slideable
   end
 
   def grow_unblocked_moves_in_dir(dx, dy)
+    # debugger
+    # new_pos = @position
+    moves = []
+
     new_pos = [@position[0] + dx, @position[1] + dy]
 
-    moves = []
-    while @board.in_bounds?(new_pos) && @board[new_pos].empty?
-      moves << new_pos
+    while @board.in_bounds?(new_pos)
+
+      if @board[new_pos].empty?
+        moves << new_pos
+      else
+        if @board[new_pos].color != @color
+          moves << new_pos
+        end
+        break
+      end
       new_pos = [new_pos[0] + dx, new_pos[1] + dy]
     end
 

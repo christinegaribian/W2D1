@@ -1,6 +1,6 @@
 class Piece
   attr_reader :board, :color
-  attr_writer :position
+  attr_accessor :position
 
   def initialize(position, board, color)
     @position = position
@@ -13,15 +13,27 @@ class Piece
     "-"
   end
 
+  def copy_to_dup(board)
+    # p self.to_s
+    self.class.new(@position, board, @color)
+  end
+
   def empty?
     self.is_a?(NullPiece)
   end
-  #
-  # def valid_moves()
-  # end
+
+  def valid_moves
+    valid_moves = []
+    moves.each do |move|
+      valid_moves << move unless move_into_check?(move)
+    end
+    valid_moves
+  end
 
   private
-  def move_into_check(to_pos)
-
+  def move_into_check?(to_pos)
+    test_board = @board.deep_dup
+    test_board.move_piece(@position, to_pos)
+    test_board.in_check?(@color)
   end
 end

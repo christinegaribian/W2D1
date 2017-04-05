@@ -6,5 +6,13 @@ class NullPiece < Piece
 
   def initialize
   end
+  def dup
+    self
+  end
+
+  def copy_to_dup(board)
+    self
+
+  end
 
 end
